@@ -1,2 +1,2 @@
-Programming using Go
+Programming Using Go
 =================================
