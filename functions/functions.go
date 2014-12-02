@@ -1,5 +1,7 @@
-// ANDREW ID: longh
-// NAME: Long He
+/*
+ * Author: Ronald He
+ * Date: 09/08/2014
+ */
 
 package main
 
