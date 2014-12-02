@@ -3,6 +3,19 @@
  * Date: 09/16/2014
  */
 
+/*=============================================================================
+ * Random Walks
+ *
+ * Implement a complete program that simulates a random walk in a width x 
+ * height field. It is runnable with the following command:
+ *     go run randwalk.go WIDTH HEIGHT STEPSIZE NUMBER-OF-STEPS SEED
+ * For example: 
+ *     go run randwalk.go 10 100.1 0.2 1000 39481
+ * should simulate a random walk of 1000 steps in a field of width 10 and 
+ * height 100, where each step is of distance 0.2. The final command line
+ * parameter is the seed for the random number generator.
+ *===========================================================================*/
+
 package main
 import (
     "math/rand"
