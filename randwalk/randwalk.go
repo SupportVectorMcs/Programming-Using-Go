@@ -14,6 +14,15 @@
  * should simulate a random walk of 1000 steps in a field of width 10 and 
  * height 100, where each step is of distance 0.2. The final command line
  * parameter is the seed for the random number generator.
+ * 
+ * Output. Simulate the random walk for the given number of steps (see below).
+ * At each step, including the starting point, output the position of your
+ * random walker in the format:
+ *     x y
+ * where x and y are real numbers.
+ * Finally, at the end, print out the final distance between where the walker
+ * ended up and where the walker started in the format:
+ *     Distance = 37.3245
  *===========================================================================*/
 
 package main
