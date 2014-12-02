@@ -1,7 +1,2 @@
-Programming-for-Scientists-02-601
+Programming using Go
 =================================
-
-Play with Go Programming Language.
-
-    hw1_functions:
-    Several functions (and perhaps some helper functions) to compute various quantities.
