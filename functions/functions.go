@@ -206,18 +206,15 @@ func Hypergeometric(M, N, n, k int) float64 {
     var fk float64 = float64(k)
     var fn float64 = float64(n)
     var fnk float64 = float64(n - k)
-    var i int = M;
-    var j int = M + N;
-    var s int = N;
-    for ; i >= M - k + 1; i-- {
+    for i := M; i >= M - k + 1; i-- {
         res = res * float64(i) / fk
         fk--
         //fmt.Println(res)
-        for ; j >= M + N - n + 1; j-- {
+        for j := M + N; j >= M + N - n + 1; j-- {
             res = res / float64(j) * fn
             fn--
             //fmt.Println(res)
-            for ; s >= N - n + k + 1; s-- {
+            for s := N; s >= N - n + k + 1; s-- {
                 res = res / fnk * float64(s)
                 fnk--
                 //fmt.Println(res)
