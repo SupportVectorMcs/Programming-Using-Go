@@ -17,10 +17,6 @@ import (
  *============================================================================*/
 
 func SumOfFirstNIntegers(n int) int {
-    /*var temp int = 0;
-    for i := 1; i <= n; i++ {
-        temp = temp + i
-    }*/
     return (1 + n) * n / 2
 }
 
