@@ -1,4 +1,4 @@
-package main
+ckage main
 import (
     "fmt"
 )
@@ -15,6 +15,6 @@ func main() {
     fmt.Println(c)
     fmt.Println(*p)
     (*p).name = "Holly"
-    p.id = 23
+    p.id = 34
     fmt.Println(*p)
 }
