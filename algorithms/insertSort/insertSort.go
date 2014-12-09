@@ -22,6 +22,7 @@ func insertSort(inList []int) []int {
 		    break
 		}
 	    }
+ 	    // add to correct the bug: if the first is the smallest
 	    outList = append(outList, k)
 	}
     }
@@ -33,6 +34,7 @@ func main() {
     len := len(inList)
     inList = insertSort(inList)
     inList = inList[:len]
-    fmt.Println(len)
+    // pay attention to why here is len, not len - 1
+    // because len (the later index is not included)
     fmt.Println(inList)
 }
