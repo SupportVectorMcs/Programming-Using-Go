@@ -22,6 +22,7 @@ func insertSort(inList []int) []int {
 		    break
 		}
 	    }
+	    outList = append(outList, k)
 	}
     }
     return outList
@@ -29,5 +30,9 @@ func insertSort(inList []int) []int {
 
 func main() {
     inList := []int{1, 9, 2, 8, 3, 7, 4, 6, 5}
-    fmt.Println(insertSort(inList))
+    len := len(inList)
+    inList = insertSort(inList)
+    inList = inList[:len]
+    fmt.Println(len)
+    fmt.Println(inList)
 }
