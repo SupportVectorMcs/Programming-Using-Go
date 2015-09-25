@@ -1,0 +1,111 @@
+// Name: Long He
+// Andrew ID: longh
+
+program encrypt
+// Input:    
+// Output:   
+// Remarks:  
+10: 82FF    read R[2]                         
+11: 92FE    mem[FE] <- R[2]              store seed in FE address  
+12: 82FF    read R[2]                    
+13: 92FD    mem[FD] <- R[2]              store n in FD address
+14: 76A0    R[6] <- 00A0                 
+15: FF40    R[F] <- pc; pc <- imm        read n input numbers and store in 00A0    
+16: 82FD    R[2] <- mem[FD]              R2 = n
+17: 76B0    R[6] <- 00B0                 the location of key is 00B0
+
+// if seed == 0, decrypting: read n numbers in 00B0
+18: 83FE    R[3] <- mem[FE]              if seed > 0
+19: D31C    if (R[3] > 0) pc <- 1C
+1A: FF40    R[F] <- pc; pc <- 40         else call readValues        
+1B: C024    pc <- 24
+
+// if seed > 0, encrypting: output n random numbers in 00B0
+1C: 90FF    write R[0]                   output 0 at first
+1D: 7101    R[1] <- 0001        
+1E: C224    if(R[2] == 0) pc <- 24       while n > 0 {
+1F: FF70    R[F] <- pc; pc <- 70              get the next random number
+20: B506    mem[R[6]] <- R[5]                 store a number in R6 address            
+21: 1661    R[6] <- R[6] + R[1]               R6++
+22: 2221    R[2] <- R[2] - R[1]               n--
+23: C01E    pc <- 1E                     }
+
+// xor 00A0 with 00B0
+24: 82FD    R[2] <- mem[FD]              R2 = n      
+25: 76A0    R[6] <- 00A0                 xor n numbers in R4 and R6
+26: 74B0    R[4] <- 00B0                 store result in R6 address   
+27: FF50    R[F] <- pc; pc <- 50
+
+// output 00D0
+28: 82FD    R[2] <- mem[FD]              R2 = n 
+29: 92FF    write R[2]                   write n to output
+2A: 76A0    R[6] <- 00A0                 output n words at 00A0
+2B: FF60    R[F] <- pc; pc <- 60          
+
+// if encrypting, output key
+2C: 85FE    R[5] <- mem[FE]              R5 = seed
+2D: C531    if(R[5] == 0) pc <- 31       if R5 == 0 halt
+2E: 82FD    R[2] <- mem[FD]                  else output n words at 00B0
+2F: 76B0    R[6] <- 00B0                 
+30: FF60    R[F] <- pc; pc <- 60
+
+31: 0000    halt
+
+function readValues
+// Input: R2 = n, R6 = location to store              
+// Return address: RF     
+// Output: n words at R6 address             
+// Temporary variables: R4
+40: 7501    R[5] <- 0001                 R5 = 1
+41: C247    if (R[2] == 0) goto 47       if n > 0 {
+42: 84FF    read R[4]                        read a number
+43: B406    mem[R[6]] <- R[4]                and store in R6 address
+44: 1665    R[6] <- R[6] + R[5]              R6++
+45: 2225    R[2] <- R[2] - R[5]              n--
+46: C041    goto 41                      }
+47: EF00    goto R[F]
+
+function xor
+// Input: R2 = n, R6 = location1, R4 = location2            
+// Return address: RF     
+// Output: xor n numbers at location1 and location 2, and store in R6 address              
+// Temporary variables: R1, R3, R5
+50: 7101    R[1] <- 0001
+51: C25A    if (R[2] == 0) pc <- 5A      for n > 0 { 
+52: A506    R[5] <- mem[R[6]]                load R6
+53: A304    R[3] <- mem[R[4]]                load R4
+54: 4553    R[5] <- R[5] ^ R[3]              do xor operation   
+55: B506    mem[R[6]] <- R[5]                store the outcome in R6 address
+56: 1661    R[6] <- R[6] + R[1]              R6++
+57: 1441    R[4] <- R[4] + R[1]              R4++
+58: 2221    R[2] <- R[2] - R[1]              n--
+59: C051    pc <- 51                     }
+5A: EF00    pc <- R[F]
+
+function output
+// Input: R2 = n, R6 = location to output              
+// Return address: RF     
+// Output: output n numbers             
+// Temporary variables: R4, R1
+60: 7101    R[1] <- 0001
+61: C267    if (R[2] == 0) pc <- 67      for n > 0 {      
+62: A406    R[4] <- mem[R[6]]                load R6
+63: 94FF    write R[4]                       output a word
+64: 2221    R[2] <- R[2] - R[1]              n--
+65: 1661    R[6] <- R[6] + R[1]              R6++
+66: C061    pc <- 61                     }
+67: EF00    pc <- R[F]
+
+function randomInt
+// Input: R4 = seed, R5 = prior random number              
+// Return address: RF     
+// Output: will generate a random number based on the seed and prior number             
+// Temporary variables: R3, R4 
+70: 7311    R[3] <- 0011                 2^4 + 1 = 17
+71: 84FE    R[4] <- mem[FE]              load seed 
+72: C376    if (R[3] == 0) pc <- 76      for R3 > 0 {
+73: 1554    R[5] <- R[5] + R[4]              R5 += seed
+74: 2331    R[3] <- R[3] - R[1]              R3--
+75: C072    pc <- 72                     }
+76: 1551    R[5] <- R[5] + R[1]          R5++
+77: EF00    pc <- R[F]                   
